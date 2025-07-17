@@ -1,17 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>XinnGram - Feed</title>
-  <link rel="stylesheet" href="style.css">
-  <script type="module" src="js/feed.js" defer></script>
+  <title>Fake Register/Login</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body>
-  <header>
-    <h1>XinnGram</h1>
-    <button onclick="logout()">Logout</button>
-  </header>
-  <main>
-    <div id="feed"></div>
-  </main>
+  <h2>Register</h2>
+  <input id="reg_username" placeholder="Username" />
+  <input id="reg_email" placeholder="Email (@xinn.lab)" />
+  <input id="reg_password" placeholder="Password" type="password" />
+  <button onclick="register()">Register</button>
+
+  <h2>Login</h2>
+  <input id="login_email" placeholder="Email (@xinn.lab)" />
+  <input id="login_password" placeholder="Password" type="password" />
+  <button onclick="login()">Login</button>
+
+  <pre id="output"></pre>
+
+  <script>
+    const SUPABASE_URL = 'https://your-project.supabase.co';
+    const SUPABASE_KEY = 'public-anon-key'; // Replace with real anon key
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function register() {
+      const username = document.getElementById('reg_username').value;
+      const email = document.getElementById('reg_email').value;
+      const password = document.getElementById('reg_password').value;
+
+      const { data, error } = await supabase
+        .from('users')
+        .insert([{ username, email, password }]);
+
+      document.getElementById('output').innerText = error
+        ? '❌ ' + error.message
+        : '✅ Registered: ' + JSON.stringify(data, null, 2);
+    }
+
+    async function login() {
+      const email = document.getElementById('login_email').value;
+      const password = document.getElementById('login_password').value;
+
+      const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('email', email)
+        .eq('password', password)
+        .single();
+
+      document.getElementById('output').innerText = error
+        ? '❌ Login failed'
+        : '✅ Logged in as: ' + data.username;
+    }
+  </script>
 </body>
 </html>
