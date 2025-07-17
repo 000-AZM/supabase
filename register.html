@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Register</title>
-  <script type="module" src="js/auth.js" defer></script>
-</head>
+<head><title>Register</title></head>
 <body>
   <h2>Register</h2>
-  <input id="email" placeholder="Email"><br>
-  <input id="password" type="password" placeholder="Password"><br>
-  <input id="username" placeholder="Username"><br>
-  <button onclick="register()">Register</button>
-  <p><a href="login.html">Login</a></p>
+  <input id="email" placeholder="you@xinn.lab">
+  <input id="password" type="password" placeholder="Password">
+  <button onclick="registerUser(document.getElementById('email').value, document.getElementById('password').value)">Register</button>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="script/supabase.js"></script>
+  <script src="script/auth.js"></script>
 </body>
 </html>
